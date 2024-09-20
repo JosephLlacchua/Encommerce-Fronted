@@ -6,6 +6,7 @@ import {ShoppingContentComponent} from "./management/components/shopping-content
 import {ProductHomeContentComponent} from "./management/components/product-home-content/product-home-content.component";
 import {AdminViewComponent} from "./management/pages/admin-view/admin-view.component";
 import {UserViewComponent} from "./management/pages/user-view/user-view.component";
+import {OrderDataContentComponent} from "./management/components/order-data-content/order-data-content.component";
 export const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'home',component: HomeViewComponent},
@@ -13,7 +14,10 @@ export const routes: Routes = [
   {path:'registro',component: RegisterUserComponent},
   {path:'carrito',component:ShoppingContentComponent},
   {path:'producto_home',component:ProductHomeContentComponent},
+  {path: 'data_order', component: OrderDataContentComponent},
+
   {path:"admin/view",component:AdminViewComponent},
   {path:"user/view",component:UserViewComponent},
+
 
 ];

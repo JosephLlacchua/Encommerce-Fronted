@@ -1,0 +1,62 @@
+.card {
+  transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.btn-outline-success {
+  border-width: 2px;
+  font-weight: bold;
+}
+
+.bg-success {
+  background-color: #2ECC71 !important;
+}
+
+.hero{
+  background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://www.fundacionaquae.org/wp-content/uploads/2021/04/agricultura-sostenible.jpg');
+  background-size: cover;
+  background-position: center;
+  min-height: calc(100vh - 64px);
+
+}
+
+.content{
+  min-height: calc(100vh - 128px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.text-content{
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.hero h1{
+  color: white;
+  font-family: Roboto, sans-serif;
+  font-weight: bold;
+  font-size: 6em;
+  line-height: normal;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+.hero p{
+  color: white;
+  font-family: Roboto, sans-serif;
+  font-weight: 300;
+  font-size: 2em;
+  text-align: center;
+  line-height: normal;
+  width: 70%;
+  margin: 0 auto;
+}
+
+.flex-grow-1 {
+  margin-top: 0 !important; /* Remove margin-top */
+  padding-top: 0 !important; /* Remove padding-top */
+}

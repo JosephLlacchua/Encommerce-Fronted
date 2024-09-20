@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
-import {environment} from "../../../environments/environment";
-import {catchError, throwError} from "rxjs";
+import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
+import { environment } from "../../../environments/environment";
+import { catchError, throwError } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -12,32 +12,24 @@ export class BaseService<T> {
   protected token: string | null = null;
 
   httpOptions = {
-    headers: new HttpHeaders(
-      {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.token}`
-      }
-    ),
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.token}`
+    }),
   };
-  constructor(protected http: HttpClient) {}
+
+  constructor(protected http: HttpClient) { }
 
   protected buildPath() {
     return this.baseUrl + this.extraUrl;
   }
 
-  newToken(token: any) {
+  newToken(token: string) {
     if (typeof window !== 'undefined' && window.localStorage) {
       localStorage.setItem('token', token);
     }
     this.token = token;
-    this.httpOptions = {
-      headers: new HttpHeaders(
-        {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.token}`
-        }
-      ),
-    };
+    this.updateHttpOptions();
   }
 
   setToken() {
@@ -45,23 +37,26 @@ export class BaseService<T> {
       const token = localStorage.getItem('token');
       if (token) {
         this.token = token;
-        this.httpOptions = {
-          headers: new HttpHeaders(
-            {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${this.token}`
-            }
-          ),
-        };
+        this.updateHttpOptions();
       }
     }
   }
 
   clearToken() {
     if (typeof window !== 'undefined' && window.localStorage) {
-      localStorage.setItem('token', '');
+      localStorage.removeItem('token');
     }
     this.token = null;
+    this.updateHttpOptions();
+  }
+
+  private updateHttpOptions() {
+    this.httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.token}`
+      }),
+    };
   }
 
   handleError(error: HttpErrorResponse) {
@@ -80,7 +75,7 @@ export class BaseService<T> {
 
   getOne(id: any) {
     this.setToken();
-    return this.http.get<T>(this.buildPath() + "/" + id, this.httpOptions).pipe(catchError(this.handleError));
+    return this.http.get<T>(`${this.buildPath()}/${id}`, this.httpOptions).pipe(catchError(this.handleError));
   }
 
   create(item: T) {
@@ -90,11 +85,11 @@ export class BaseService<T> {
 
   update(id: any, item: T) {
     this.setToken();
-    return this.http.put<T>(this.buildPath() + "/" + id, item, this.httpOptions).pipe(catchError(this.handleError));
+    return this.http.put<T>(`${this.buildPath()}/${id}`, item, this.httpOptions).pipe(catchError(this.handleError));
   }
 
   delete(id: any) {
     this.setToken();
-    return this.http.delete<T>(this.buildPath() + "/" + id, { ...this.httpOptions, responseType: 'text' as 'json' }).pipe(catchError(this.handleError));
+    return this.http.delete<T>(`${this.buildPath()}/${id}`, { ...this.httpOptions, responseType: 'text' as 'json' }).pipe(catchError(this.handleError));
   }
 }

@@ -3,51 +3,54 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInput } from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input'; // Cambiado a MatInputModule
 import { ReactiveFormsModule, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { NgIf } from '@angular/common';
 import { Router } from '@angular/router'; // Corrected import
 import { MatSnackBar } from "@angular/material/snack-bar";
-import {User} from "../../../user/models/user.model";
-import {AuthenticationApiService} from "../../services/authentication-api.service";
-import {UserApiService} from "../../../user/services/user-api.service";
-import {AdminApiService} from "../../../user/services/admin-api.service";
-import {UserDetailsApiService} from "../../../user/services/user-details-api.service";
+import { User } from "../../../user/models/user.model";
+import { AuthenticationApiService } from "../../services/authentication-api.service";
+import { UserApiService } from "../../../user/services/user-api.service";
+import { AdminApiService } from "../../../user/services/admin-api.service";
+import { UserDetailsApiService } from "../../../user/services/user-details-api.service";
+
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
     MatCardModule,
     MatFormFieldModule,
-    MatInput,
+    MatInputModule, // Cambiado a MatInputModule
     ReactiveFormsModule,
     MatButtonModule,
     RouterLink,
     NgIf
   ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls: ['./login.component.css'] // Corregido a styleUrls
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
-  user = new User();
   errorMessage: string | null = null;
   loginAttempts: number = 0;
 
-  constructor(private userApiService: UserApiService,
-              private authenticationApiService: AuthenticationApiService,
-              private userDetailsApiService: UserDetailsApiService,
-              private adminApiService: AdminApiService,
-              private router: Router,
-              private formBuilder: FormBuilder,
-              private snackBar: MatSnackBar) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private snackBar: MatSnackBar,
+    private authenticationApiService: AuthenticationApiService,
+    private userApiService: UserApiService,
+    private adminApiService: AdminApiService,
+    private userDetailsApiService: UserDetailsApiService
+  ) {}
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
+
     if (this.userApiService.isLogged()) {
       if (this.userApiService.getIsAdmin()) {
         this.router.navigateByUrl('/admin/view');
@@ -56,6 +59,7 @@ export class LoginComponent implements OnInit {
       }
     }
   }
+
   login() {
     if (this.loginAttempts > 3) {
       this.errorMessage = "Has alcanzado el límite de intentos de inicio de sesión. Por favor, inténtalo más tarde.";
@@ -75,7 +79,7 @@ export class LoginComponent implements OnInit {
             this.userApiService.setIsAdmin(true);
             this.adminApiService.setAdminId(admin.id);
             this.router.navigateByUrl('/admin/view');
-            this.snackBar.open('Bievenido ' + admin.fullname + ' 🤗', 'Cerrar', {
+            this.snackBar.open('Bienvenido ' + admin.fullname + ' 🤗', 'Cerrar', {
               duration: 2000
             });
           } else {
@@ -85,17 +89,15 @@ export class LoginComponent implements OnInit {
                 this.userApiService.setIsAdmin(false);
                 this.userDetailsApiService.setUserDetailId(userDetail.id);
                 this.router.navigateByUrl('/user/view');
-                this.snackBar.open('Bievenido ' + userDetail.fullname + ' 🤗', 'Cerrar', {
+                this.snackBar.open('Bienvenido ' + userDetail.fullname + ' 🤗', 'Cerrar', {
                   duration: 2000
                 });
               }
             });
           }
-
         });
-
       }, error => {
-        this.snackBar.open('Error. Credenciales no encontradas😥', 'Cerrar', {
+        this.snackBar.open('Error. Credenciales no encontradas 😥', 'Cerrar', {
           duration: 3000
         });
       }

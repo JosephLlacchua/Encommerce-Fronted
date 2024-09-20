@@ -33,7 +33,7 @@
             <mat-error>Introduce tu contraseña</mat-error>
           </mat-form-field>
         </div>
-        <button mat-flat-button color="primary" type="submit" [disabled]="!registerForm.valid">Registrarse</button>
+        <button mat-flat-button color="primary" type="submit" >Registrarse</button>
         <p><a routerLink="/login">¿Ya tienes una cuenta? Inicia sesión</a></p>
       </form>
       <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>

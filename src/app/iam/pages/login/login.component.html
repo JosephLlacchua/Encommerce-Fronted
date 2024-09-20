@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container ">
   <mat-card class="card">
     <mat-card-header>
       <mat-card-title>Iniciar Sesión</mat-card-title>
@@ -19,7 +19,7 @@
             <mat-error>Introduce tu contraseña</mat-error>
           </mat-form-field>
         </div>
-        <button mat-flat-button color="primary" type="submit" [disabled]="!loginForm.valid">Acceder</button>
+        <button mat-flat-button color="primary" type="submit" >Acceder</button>
         <p><a routerLink="/registro">¿No tienes una cuenta? Regístrate</a></p>
       </form>
       <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
